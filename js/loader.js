@@ -29,7 +29,8 @@ export class Loader{
 class Gist_Loader extends Loader{
 
     constructor(){
-        super(undefined,undefined,undefined,false)
+        super(undefined,undefined,undefined,false);
+        this.CONFIG = undefined;
     }
 
     loadConfig(config){
@@ -46,7 +47,18 @@ class Gist_Loader extends Loader{
 
     fetch(url, func){
 
-        this.URL = `https://api.github.com/users/${this.CONFIG.GITHUB_USERNAME}/gists${url}`;
+        if (this.CONFIG == undefined){
+
+            console.log("still waiting for loading config");
+
+            setTimeout(
+                this.fetch(url, func), 500
+            );
+
+            return;
+        }
+
+        this.URL = `https://api.github.com/gists/${url}`;
         this.POSTLOAD_FUNCTION = func;
 
         this.run()

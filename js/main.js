@@ -1,38 +1,78 @@
 import {Loader, GIST_LOADER} from "./loader.js";
 
-new Loader("env.dev.json", async data => {
+class Manager{
+    preLoad(){};
+    postLoad(){};
+}
 
-    let config = {};
-    config.env = 'prod';
+export const MANAGER = new Manager();
 
-    if (data.status === 200){
+const load_includes = () => {
+    return new Promise( async (res, rej) => {
 
-        config.env = 'dev';
-
-        const dev_env = await data.json();
-        config = {...config, GITHUB_TOKEN: dev_env.GITHUB_TOKEN};
-    
-    }
-
-    
-    await new Promise( (res, rej) => {
+        const include_contents = document.querySelectorAll('[include]');
         
-        new Loader("env.json", async data => {
-            
-            const env = await data.json();
-            
-            config = {...config, ...env};
-            console.log(config);
-            GIST_LOADER.loadConfig(config);
+        for (const target of include_contents){
 
-            res();
+            const element = target.getAttribute('include');
 
-        });
+            new Loader(`./inc/${element}.html`, async data => {
+
+                const content = await data.text();
+                target.innerHTML = content;
+
+            });
+
+        }
+
+        res();
 
     });
+}
 
-    GIST_LOADER.fetch('', async data => {
-        const result = await data.json();
-        console.log(result);
+const load_config = () => {
+
+    return new Promise( (res, rej) => {
+
+        new Loader("env.dev.json", async data => {
+            
+            let config = {};
+            config.env = 'prod';
+        
+            if (data.status === 200){
+        
+                config.env = 'dev';
+        
+                const dev_env = await data.json();
+                config = {...config, GITHUB_TOKEN: dev_env.GITHUB_TOKEN};
+            
+            }
+        
+                
+            new Loader("env.json", async data => {
+                
+                const env = await data.json();
+                
+                config = {...config, ...env};
+                GIST_LOADER.loadConfig(config);
+    
+                res();
+    
+            });
+            
+        });
     })
-});
+}
+
+export const INITIALIZE = () => {
+    return new Promise(async (res, rej) => {
+
+        MANAGER.preLoad();
+
+        await load_config();
+        await load_includes();
+    
+        res(MANAGER.postLoad());
+
+    });
+}
