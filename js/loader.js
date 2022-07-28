@@ -4,12 +4,14 @@ export class Loader{
     // OPTIONS: Object
     // POSTLOAD_FUNCTION: (data: String) => void;
 
-    constructor(url, func, options = {}){
+    constructor(url, func, options = {}, autorun = true){
         this.POSTLOAD_FUNCTION = func;
         this.OPTIONS = options;
         this.URL = url;
 
-        this.run();
+        if (autorun){
+            this.run();
+        }
     }
 
     async run(){
@@ -23,3 +25,32 @@ export class Loader{
     }
 
 }
+
+class Gist_Loader extends Loader{
+
+    constructor(){
+        super(undefined,undefined,undefined,false)
+    }
+
+    loadConfig(config){
+
+        if(config.env === 'dev'){
+            this.OPTIONS.headers = {
+                Authorization: `token ${config.GITHUB_TOKEN}`
+            }
+        }
+
+        this.CONFIG = config;
+    
+    }
+
+    fetch(url, func){
+
+        this.URL = `https://api.github.com/users/${this.CONFIG.GITHUB_USERNAME}/gists${url}`;
+        this.POSTLOAD_FUNCTION = func;
+
+        this.run()
+    }
+}
+
+export const GIST_LOADER = new Gist_Loader();
