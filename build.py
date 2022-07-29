@@ -42,18 +42,17 @@ with open('blog_template.html') as f:
 for post in posts:
 
     title = ''
-    print(post)
-    # id = "123"
-    # is_page = 'page' in post.get('description').split(' #')
-    # tags = post.get('description').split(' #')[2:]
+    id = "123"
+    is_page = 'page' in post.get('description').split(' #')
+    tags = post.get('description').split(' #')[2:]
 
-    # for name in post.get('files'):
-    #     title = name.split('.md')[0]
+    for name in post.get('files'):
+        title = name.split('.md')[0]
 
-    # if is_page:
+    if is_page:
 
-    #     os.mkdir(f'./blog/{title}')
+        os.mkdir(f'./blog/{title}')
 
-    #     with open(f'./blog/{title}/index.html', 'w+') as f:
+        with open(f'./blog/{title}/index.html', 'w+') as f:
 
-    #         f.write(template.replace('{{ id }}', id))
+            f.write(template.replace('{{ id }}', id))
