@@ -1,0 +1,24 @@
+name: Fetch Gist Post
+
+on:
+  push:
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+
+    env:
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    steps:
+      - uses: action/checkout@v3
+      - name: Set up python
+        uses: action/setup-python@v4
+        with:
+          python-version: '3.8'
+
+      - name: Create blogs
+        run: python build.py
+
+      - name: Check results
+        run: ls -al ./blog
