@@ -30,4 +30,4 @@ jobs:
         run: git stash
 
       - name: deploy to github page
-        run: git branch -b gh-pages && git stash pop && git add . && git commit -m "RELEASE:    new post" && git push origin gh-pages
+        run: git branch -b gh-pages && git stash pop && git add . && git commit -m "release new post" && git push origin gh-pages
