@@ -11,9 +11,9 @@ jobs:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     steps:
-      - uses: action/checkout@v3
+      - uses: actions/checkout@v3
       - name: Set up python
-        uses: action/setup-python@v4
+        uses: actions/setup-python@v4
         with:
           python-version: '3.8'
 
