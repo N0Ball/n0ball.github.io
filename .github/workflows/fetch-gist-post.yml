@@ -6,10 +6,9 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    permissions: write-all
 
     env:
-      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      GITHUB_TOKEN: ${{secrets.GIST_TOKEN}}
 
     steps:
       - uses: actions/checkout@v3
