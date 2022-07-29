@@ -32,8 +32,6 @@ r = requests.get(f'https://api.github.com/users/{GITHUB_USERNAME}/gists', header
 
 posts = r.json()
 
-print(posts)
-
 template = ''
 
 with open('blog_template.html') as f:
