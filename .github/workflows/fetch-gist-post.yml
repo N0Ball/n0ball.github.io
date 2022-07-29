@@ -6,8 +6,7 @@ on:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: read
+    permissions: read-all
 
     env:
       GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
