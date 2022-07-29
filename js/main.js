@@ -12,15 +12,19 @@ const load_includes = () => {
 
         const include_contents = document.querySelectorAll('[include]');
         
-        for (const target of include_contents){
+        for await (const target of include_contents){
 
             const element = target.getAttribute('include');
 
-            new Loader(`./inc/${element}.html`, async data => {
+            await new Promise( (resolve, reject) => {
+                new Loader(`/inc/${element}.html`, async data => {
 
-                const content = await data.text();
-                target.innerHTML = content;
+                    const content = await data.text();
+                    target.innerHTML = content;
 
+                    resolve();
+
+                });
             });
 
         }
@@ -34,7 +38,7 @@ const load_config = () => {
 
     return new Promise( (res, rej) => {
 
-        new Loader("env.dev.json", async data => {
+        new Loader("/env.dev.json", async data => {
             
             let config = {};
             config.env = 'prod';
@@ -49,7 +53,7 @@ const load_config = () => {
             }
         
                 
-            new Loader("env.json", async data => {
+            new Loader("/env.json", async data => {
                 
                 const env = await data.json();
                 
