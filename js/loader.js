@@ -63,7 +63,7 @@ class Gist_Loader extends Loader{
                     let title = '';
 
                     for (const [key, value] of Object.entries(post.files)){
-                        title = key;
+                        title = key.split('.md')[0];
                     }
 
                     const post_element = document.createElement('li');
