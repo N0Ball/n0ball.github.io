@@ -69,7 +69,7 @@ class Gist_Loader extends Loader{
                     const post_element = document.createElement('li');
                     post_element.classList.add('blog-post-item');
                     post_element.innerHTML = `
-                        <a href="#">
+                        <a href="/blog/${title}/">
                             
                             <div class="blog-content">
 
