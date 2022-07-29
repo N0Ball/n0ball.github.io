@@ -27,7 +27,7 @@ jobs:
         run: ls -al ./blog
 
       - name: save result
-        run: git checkout -B gh-pages
+        run: git checkout -B gh-pages && git config user.email "autodeploy@github.com" && git config user.name "github action auto bot"
 
       - name: deploy to github page
         run:  git add . && git commit -m "release new post" && git push origin --set-upstream gh-pages
