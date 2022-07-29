@@ -3,6 +3,7 @@ import json
 import requests
 
 os.system("rm -f ./blog/*")
+os.mkdir('./blog')
 
 GITHUB_TOKEN = ''
 GITHUB_USERNAME = ''
