@@ -41,7 +41,7 @@ for post in posts:
 
     title = ''
     print(post)
-    id = post.get('id')
+    id = "123"
     is_page = 'page' in post.get('description').split(' #')
     tags = post.get('description').split(' #')[2:]
 
