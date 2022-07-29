@@ -40,7 +40,8 @@ with open('blog_template.html') as f:
 for post in posts:
 
     title = ''
-    id = post.get('id');
+    print(post)
+    id = post.get('id')
     is_page = 'page' in post.get('description').split(' #')
     tags = post.get('description').split(' #')[2:]
 
