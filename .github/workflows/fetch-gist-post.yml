@@ -2,6 +2,7 @@ name: Fetch Gist Post
 
 on:
   push:
+  workflow_dispatch:
 
 jobs:
   fetch:
