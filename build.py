@@ -2,7 +2,7 @@ import os
 import json
 import requests
 
-os.system("rm -rf ./blog/*")
+os.system("rm -rf ./blog")
 os.mkdir('./blog')
 
 GITHUB_TOKEN = ''
