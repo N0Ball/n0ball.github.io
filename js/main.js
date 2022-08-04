@@ -46,6 +46,8 @@ const load_config = () => {
             if (data.status === 200){
         
                 config.env = 'dev';
+
+                console.log("using dev mode");
         
                 const dev_env = await data.json();
                 config = {...config, GITHUB_TOKEN: dev_env.GITHUB_TOKEN};
