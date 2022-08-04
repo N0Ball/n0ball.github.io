@@ -1,0 +1,51 @@
+span {
+    display: inline
+}
+.text-white{
+    color: white;
+}
+h1 {
+    font-size: 2em;
+}
+.time {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+ion-icon {
+    display: inline-block;
+    padding-right: 3px;
+}
+#comments {
+    margin-top: 1rem;
+}
+blockquote{
+    position: relative;
+    margin-left: .5rem;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+blockquote::before {
+    content: '';
+    position: absolute;
+    left: -.5rem;
+    width: 2px;
+    height: 100%;
+    background-color: white;
+}
+article {
+    min-height: auto;
+}
+.comment{
+    border: 3px solid rgba(220, 220, 220, 0.5);
+    border-radius: 10px;
+    overflow: hidden;
+    padding: 1rem;
+    margin-top: .5rem;
+}
+.comment-meta{
+    display: flex;
+    justify-content: space-between;
+}
+.comment-username{
+    display: flex;
+}
