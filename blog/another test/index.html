@@ -15,24 +15,8 @@
     <link rel="stylesheet" href="/css/dracula.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="/css/blog.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <style>
-        span {
-            display: inline
-        }
-        .text-white{
-            color: white;
-        }
-        h1 {
-            font-size: 2em;
-        }
-        #time {
-            float: right
-        }
-        ion-icon {
-            display: inline-block;
-        }
-    </style>
 </head>
 <body>
 
@@ -46,14 +30,26 @@
             <!-- Content -->
             <article id="content" class="active text-white"></article>
     
+            
+            <!-- Comment -->
+            <article id="comments" class="active text-white">
+    
+                <header>
+                    <h2 class="h2 article-title">Comments</h2>
+                </header>
+    
+                <div id="comment-field"></div>
+    
+            </article>
+    
         </div>
 
     </main>
 
-
+    <script type="text/javascript" src="/js/dom_purify.js"></script>
     <script type="module">
         import {INITIALIZE, MANAGER} from '/js/main.js';
-        import {GIST_LOADER} from '/js/loader.js';
+        import {GIST_LOADER, Loader} from '/js/loader.js';
 
         const id = '1982f0e6baf3b8eb9a74a7a465b8cbd1';
         
@@ -71,8 +67,8 @@
             
             GIST_LOADER.fetch(id, async data => {
                 const result = await data.json();
+                const comments_url = await result.comments_url;
                 const content_field = document.getElementById('content');
-                
                 
                 for (const [key, value] of Object.entries(result.files)){
                     document.title = key.split('.md')[0];
@@ -81,14 +77,48 @@
                         <h2 class="h2 article-title">${key.split('.md')[0]}</h2>
 
                         <div id="time">
+                            <ion-icon name="time-outline"></ion-icon> 
                             <small> 
-                                <ion-icon name="time-outline"></ion-icon> 
                                 Updated ${result.updated_at.split('T')[0]} 
                             </small>
                         </div>
                     </header>
                     ` + marked.parse(value.content);
                 }
+
+                await new Promise( (res, rej ) => {
+                    new Loader(comments_url, async (data) => {
+
+                        const comments = await data.json();
+                        const comment_field = document.getElementById('comment-field');
+                        
+                        for (const comment of comments){
+
+                            const comment_element = document.createElement('div');
+                            comment_element.classList.add('comment');
+
+                            comment_element.innerHTML = `
+                                <div class="comment-meta">
+                                    <h4 class="article-title comment-username">
+                                        <img src="${comment.user.avatar_url}" height=15 width=15 style="margin-top: 3px">
+                                        &nbsp;${comment.user.login}
+                                    </h4>
+                                    <div class="time">
+                                        <ion-icon name="time-outline"></ion-icon> 
+                                        <small> 
+                                            Updated ${comment.updated_at.split('T')[0]} 
+                                        </small>
+                                    </div>
+                                </div>
+                            ` + DOMPurify.sanitize(marked.parse(comment.body));
+
+                            comment_field.appendChild(comment_element);
+                        }
+
+                        res()
+
+                    });
+                });
 
                 renderMathInElement(document.body);
                 hljs.highlightAll();
