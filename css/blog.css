@@ -33,10 +33,9 @@ a{
 }
 img{
     max-width: 100%;
-    margin: 1rem;
 }
 pre{
-    margin: 1rem;
+    margin: .5rem;
 }
 #contant > h1, h2, h3, h4 {
     margin: .5rem;
@@ -70,4 +69,13 @@ article {
 }
 .comment-username{
     display: flex;
+}
+article > ol > li {
+    list-style: decimal;
+    margin-left: 2rem;
+    margin-top: .5rem;
+}
+article > p {
+    margin-top: .5rem;
+    margin-left: .5rem;
 }
