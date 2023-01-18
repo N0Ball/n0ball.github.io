@@ -83,7 +83,7 @@
                             </small>
                         </div>
                     </header>
-                    ` + marked.parse(value.content);
+                    ` + marked.parse(value.content.replace(/\$(..*)\$/g, '\\\\($1\\\\)'));
                 }
 
                 await new Promise( (res, rej ) => {
