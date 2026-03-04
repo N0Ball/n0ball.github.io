@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="./css/vcard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Home Page</title>
+</head>
+<body>
+
+    <main>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" data-sidebar include="sidebar"></aside>
+    
+        <div class="main-content">
+    
+            <!-- Navbar -->
+            <nav class="navbar" include="navbar"></nav>
+    
+            <!-- About -->
+            <article class="about  active" data-page="about" include="about"></article>
+    
+            <!-- Resume -->
+            <article class="resume" data-page="resume" include="resume"></article>
+    
+            <!-- Portfolio -->
+            <article class="portfolio" data-page="portfolio" include="portfolio"></article>
+    
+            <!-- Blog -->
+            <article class="blog" data-page="blog" include="blog"></article>
+    
+            <!-- Contact -->
+            <article class="contact" data-page="contact" include="contact"></article>
+    
+        </div>
+
+    </main>
+
+
+    <script type="module">
+        import {INITIALIZE, MANAGER} from './js/main.js';
+        import {GIST_LOADER} from './js/loader.js';
+
+        MANAGER.postLoad = () => {
+
+            const script = document.createElement('script');
+            script.src = './js/vcard.js';
+            document.body.appendChild(script);
+            
+        }
+        
+        async function init(){
+            await INITIALIZE();
+            GIST_LOADER.readRoute();
+        }
+
+        init();
+
+    </script>
+    <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "13910509e0c344e68180b2f3330febd1"}'></script><!-- End Cloudflare Web Analytics -->
+
+</body>
+</html>
