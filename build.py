@@ -26,11 +26,32 @@ with open('env.json') as f:
 
     GITHUB_USERNAME = env.get('GITHUB_USERNAME')
 
-r = requests.get(f'https://api.github.com/users/{GITHUB_USERNAME}/gists', headers = {
-    "Authorization": f"token {GITHUB_TOKEN}"
-})
+headers = {
+    "Accept": "application/vnd.github+json"
+}
+
+if GITHUB_TOKEN:
+    headers["Authorization"] = f"Bearer {GITHUB_TOKEN}"
+
+r = requests.get(
+    f'https://api.github.com/users/{GITHUB_USERNAME}/gists',
+    headers=headers,
+    timeout=30
+)
 
 posts = r.json()
+
+if not isinstance(posts, list):
+    # Token-based request can fail in CI for public-gist listing; retry unauthenticated.
+    r = requests.get(
+        f'https://api.github.com/users/{GITHUB_USERNAME}/gists',
+        headers={"Accept": "application/vnd.github+json"},
+        timeout=30
+    )
+    posts = r.json()
+
+if not isinstance(posts, list):
+    raise RuntimeError(f"Failed to load gists for '{GITHUB_USERNAME}': {posts}")
 
 template = ''
 
@@ -42,8 +63,9 @@ for post in posts:
 
     title = ''
     id = post.get('id')
-    is_page = 'page' in post.get('description').split(' #')
-    tags = post.get('description').split(' #')[2:]
+    description = post.get('description') or ''
+    is_page = 'page' in description.split(' #')
+    tags = description.split(' #')[2:]
 
     for name in post.get('files'):
         title = name.split('.md')[0]
